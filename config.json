@@ -1,0 +1,8 @@
+{
+    "dbhost": "sk-1.cbkvymavys7p.us-west-1.rds.amazonaws.com",
+    "port": 3306,
+    "dbname": "sk_dev",
+    "dbuser": "admin",
+    "dbpassword": "123qweasd",
+    "debug": true
+}

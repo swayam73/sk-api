@@ -18,6 +18,7 @@
   "homepage": "https://github.com/bharathram89/sk-api#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "serverless-http": "^2.5.0"
   }
 }
