@@ -23,7 +23,7 @@ service: sk-api
 provider:
   name: aws
   runtime: nodejs12.x
-
+  region: us-west-1
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -72,6 +72,9 @@ functions:
          method: get
     - http:
          path: /users/getCandidate
+         method: get
+    - http:
+         path: /role/getRoles
          method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -128,7 +131,12 @@ functions:
 
 
 
-
+    securityGroupIds:
+      - sg-0d177011fe198bf5a
+      - sg-743d9906
+    subnetIds:
+      - subnet-84738fde
+      - subnet-beeb48d8
 
 
 

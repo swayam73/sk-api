@@ -5,8 +5,11 @@ const express = require('express');
 const app = express();
 const validate = require('./validate');
 const user = require('./User.js');
+const role = require('./Role.js');
+var cors = require('cors');
 
 
+app.use(cors());
 
 app.get('/users/getRecruiter', function (req, res) {
   res.send('Get Recruiter!')
@@ -15,6 +18,17 @@ app.get('/users/getRecruiter', function (req, res) {
 app.get('/users/getCandidate', function (req, res) {
   res.send('Get Candidate!')
 })
+
+
+app.get('/role/getRoles', function (req, res) {
+  role.getRoles(function(data){
+    console.log('in here ')
+    res.send(data)
+  })
+
+  
+})
+
 
 
 app.post('/users/createRecruiter', function (req, res) {
