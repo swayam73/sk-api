@@ -6,6 +6,9 @@ const app = express();
 const validate = require('./validate');
 const user = require('./User.js');
 const role = require('./Role.js');
+const parse = require('./Parse.js');
+const skill = require('./Skill.js');
+const industry = require('./Industry.js');
 var cors = require('cors');
 
 
@@ -22,13 +25,24 @@ app.get('/users/getCandidate', function (req, res) {
 
 app.get('/role/getRoles', function (req, res) {
   role.getRoles(function(data){
-    console.log('in here ')
-    res.send(data)
+    let parsedData  = parse.parseRoles(data)
+    res.send(parsedData)
   })
-
-  
 })
 
+app.get('/industry/getIndustry', function (req, res) {
+  industry.getIndustry(function(data){
+    let parsedData  = parse.parseIndustry(data)
+    res.send(parsedData)
+  })
+})
+
+app.get('/skill/getSkills', function (req, res) {
+  skill.getSkills(function(data){
+    let parsedData  = parse.parseSkills(data)
+    res.send(parsedData)
+  })
+})
 
 
 app.post('/users/createRecruiter', function (req, res) {
