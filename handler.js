@@ -44,22 +44,6 @@ app.get('/skill/getSkills', function (req, res) {
   })
 })
 
-
-app.post('/users/createRecruiter', function (req, res) {
-  // context.callbackWaitsForEmptyEventLoop = false;
-  if(validate.createRecruiterValidate(req.query)){
-    user.createRecruiter(req.query,function(result){
-      if(result === "PASS"){
-        res.send('Created Recruiter')
-      }else{
-        res.send('Create Recruiter FAILED')
-      }
-    })
-  }else{
-    res.send('Create Recruiter FAILED VALIDATION')
-  }
-})
-
 app.post('/users/createCandidate', function (req, res) {
   // context.callbackWaitsForEmptyEventLoop = false;
   if(validate.createCandidateValidate(req.query)){
@@ -72,6 +56,38 @@ app.post('/users/createCandidate', function (req, res) {
     })
   }else{
     res.send('Create Candidate FAILED VALIDATION')
+  }
+})
+
+
+app.post('/users/createRecruiter', function (req, res) {
+  // context.callbackWaitsForEmptyEventLoop = false;
+  if(validate.createRecruiterValidate(req.query)){
+    user.createRecruiter(req.query,function(result){
+      console.log(result,"hanlder result")
+      if(result["orgEmail"]){
+        res.send(result)
+      }else{
+        res.send('Create Recruiter FAILED')
+      }
+    })
+  }else{
+    res.send('Create Recruiter FAILED VALIDATION')
+  }
+})
+
+app.post('/users/updateRecruiterCompany', function (req, res) {
+  // context.callbackWaitsForEmptyEventLoop = false;
+  if(validate.updateRecruiterCompany(req.query)){
+    user.updateRecruiterCompany(req.query,function(result){
+      if(result["orgEmail"]){
+        res.send(result)
+      }else{
+        res.send('Update Recruiter Company Info FAILED')
+      }
+    })
+  }else{
+    res.send('Update Recruiter Company Info FAILED VALIDATION')
   }
 })
 

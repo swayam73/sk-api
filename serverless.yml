@@ -65,6 +65,9 @@ functions:
          path: /users/createRecruiter
          method: post
     - http:
+         path: /users/updateRecruiterCompany
+         method: post
+    - http:
          path: /users/createCandidate
          method: post
     - http:
@@ -82,7 +85,7 @@ functions:
     - http:
          path: /skill/getSkills
          method: get
-#    The following are a few example events you can configure
+#    The following are a few example events you can configure /users/updateRecruiterCompany
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
 #    events:

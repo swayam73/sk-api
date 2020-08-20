@@ -8,5 +8,7 @@ function createRecruiterValidate(){
     return true;
 }
 
-
-module.exports = {createCandidateValidate,createRecruiterValidate}
+function updateRecruiterCompany(){
+    return true;
+}
+module.exports = {createCandidateValidate,createRecruiterValidate,updateRecruiterCompany}
