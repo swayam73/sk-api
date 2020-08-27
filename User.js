@@ -39,8 +39,8 @@ function createCandidate(data,callback){
 }
 function createRecruiter(data,callback){
     let sql = "CALL createRecruiter" +
-        "( '" + data.first_name + "','" + data.last_name + "','" + data.org_email + "','" + data.contact_number + "','" + data.password + "');";
-    console.log(sql,"sql")
+        "( '" + data.header.first_name + "','" + data.header.last_name + "','" + data.header.org_email + "','" + data.header.contact_number + "','" + data.header.password + "');";
+    console.log(sql,"sql",data)
     QueryDB(sql,function(queryResult){
         if (queryResult[0][0]["orgEmail"]){
             callback(queryResult[0][0])

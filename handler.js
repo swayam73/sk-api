@@ -12,6 +12,11 @@ const industry = require('./Industry.js');
 var cors = require('cors');
 
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 app.use(cors());
 
 app.get('/users/getRecruiter', function (req, res) {
@@ -44,11 +49,13 @@ app.get('/skill/getSkills', function (req, res) {
   })
 })
 
+
 app.post('/users/createCandidate', function (req, res) {
   // context.callbackWaitsForEmptyEventLoop = false;
   if(validate.createCandidateValidate(req.query)){
     user.createCandidate(req.query,function(result){
       if(result === "PASS"){
+
         res.send('Created Candidate')
       }else{
         res.send('Create Candidate FAILED')
@@ -59,11 +66,20 @@ app.post('/users/createCandidate', function (req, res) {
   }
 })
 
+app.options('/users/createRecruiter', function (req, res,next) {
+
+  res.header('Access-Control-Allow-Methods', 'OPTIONS,POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  })
+
 
 app.post('/users/createRecruiter', function (req, res) {
   // context.callbackWaitsForEmptyEventLoop = false;
   if(validate.createRecruiterValidate(req.query)){
-    user.createRecruiter(req.query,function(result){
+    console.log(JSON.parse(req['body'].toString('utf8')),"request info",req)
+    user.createRecruiter(JSON.parse(req['body'].toString('utf8')),function(result){
       console.log(result,"hanlder result")
       if(result["orgEmail"]){
         res.send(result)
