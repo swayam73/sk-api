@@ -33,13 +33,16 @@ module.exports = function(app){
       
       
       app.post('/users/createRecruiter', function (req, res) {
+        
+      res.header('Access-Control-Allow-Origin', '*');
         // context.callbackWaitsForEmptyEventLoop = false;
         if(validate.createRecruiterValidate(req.query)){
           console.log("request info",req['headers'])
           user.createRecruiter(req['headers'],function(result){
             console.log(result,"hanlder result",result["orgEmail"],result[0])
-            if(result["orgEmail"]){
-              res.send(result)
+            if(result["orgEmail"] !== undefined){
+              console.log('in here')
+              return res.status(200).send(result["orgEmail"])
             }else{
               res.send('Create Recruiter FAILED')
             }
