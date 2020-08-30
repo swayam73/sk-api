@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var config = require('./config.json');
+var config = require('../config.json');
 var pool = mysql.createPool({
     host: config.dbhost,
     user: config.dbuser,
@@ -25,12 +25,4 @@ function QueryDB(sql,callback){
         })
     })
 }
-
-function getIndustry(callback){
-    let sql = "select industryName from industry;"
-    QueryDB(sql,function(queryResult){
-        callback(queryResult)
-    })
-}
-
-module.exports = {getIndustry}
+module.exports = {QueryDB};

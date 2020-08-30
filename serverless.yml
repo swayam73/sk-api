@@ -59,11 +59,32 @@ provider:
 
 functions:
   sk-User:
-    handler: handler.User
+    handler: app.User
     events:
     - http:
          path: /users/createRecruiter
          method: post
+         cors:
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+    - http:
+         path: /users/createRecruiter
+         method: options
+         cors: 
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
     - http:
          path: /users/updateRecruiterCompany
          method: post
