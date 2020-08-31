@@ -1,8 +1,8 @@
 
+const email = require('../../helpers/email.js');
 const parse = require('../../helpers/Parse.js');
 const validate = require('../../helpers/validate');
 const user = require('../../middlewares/User.js');
-
 
 module.exports = function(app){
 
@@ -23,15 +23,6 @@ module.exports = function(app){
         }
       })
       
-      // app.options('/users/createRecruiter', function (req, res,next) {
-      
-      //   res.header('Access-Control-Allow-Methods', 'OPTIONS,POST');
-      //   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      //     res.header('Access-Control-Allow-Origin', '*');
-      //     next();
-      //   })
-      
-      
       app.post('/users/createRecruiter', function (req, res) {
         
       res.header('Access-Control-Allow-Origin', '*');
@@ -39,13 +30,16 @@ module.exports = function(app){
         if(validate.createRecruiterValidate(req.query)){
           console.log("request info",req['headers'])
           user.createRecruiter(req['headers'],function(result){
-            console.log(result,"hanlder result",result["orgEmail"],result[0])
-            if(result["orgEmail"] !== undefined){
-              console.log('in here')
-              return res.status(200).send(result["orgEmail"])
-            }else{
-              res.send('Create Recruiter FAILED')
-            }
+            email.sendVerificationEmail(result).then(data=>{
+              console.log(data," send email data")
+              console.log(result,"hanlder result",result["orgEmail"],result[0])
+              if(result["orgEmail"] !== undefined){
+                console.log('in here')
+                return res.status(200).send(result["orgEmail"])
+              }else{
+                res.send('Create Recruiter FAILED')
+              }
+            })
           })
         }else{
           res.send('Create Recruiter FAILED VALIDATION')

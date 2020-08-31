@@ -24,6 +24,16 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: us-west-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+      Resource:
+        - "*"
+      Condition:
+        StringEquals:
+          ses:FromAddress:
+            - "bharath.ram89@gmail.com"
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -64,6 +74,7 @@ functions:
     - http:
          path: /users/createRecruiter
          method: post
+         
     - http:
          path: /users/createRecruiter
          method: options
