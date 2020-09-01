@@ -33,7 +33,7 @@ provider:
       Condition:
         StringEquals:
           ses:FromAddress:
-            - "bharath.ram89@gmail.com"
+            - "goskipped@gmail.com"
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1

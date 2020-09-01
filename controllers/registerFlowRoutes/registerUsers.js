@@ -29,8 +29,10 @@ module.exports = function(app){
         // context.callbackWaitsForEmptyEventLoop = false;
         if(validate.createRecruiterValidate(req.query)){
           console.log("request info",req['headers'])
-          user.createRecruiter(req['headers'],function(result){
-            email.sendVerificationEmail(result).then(data=>{
+
+          var randNum = Math.floor(Math.random()*90000) + 10000;
+          user.createRecruiter(req['headers'],randNum,function(result){
+            email.sendVerificationEmail(result,randNum).then(data=>{
               console.log(data," send email data")
               console.log(result,"hanlder result",result["orgEmail"],result[0])
               if(result["orgEmail"] !== undefined){

@@ -12,9 +12,9 @@ function createCandidate(data,callback){
         }
     })
 }
-function createRecruiter(data,callback){
+function createRecruiter(data,randNum,callback){
     let sql = "CALL createRecruiter" +
-        "( '" + data.first_name + "','" + data.last_name + "','" + data.org_email + "','" + data.contact_number + "','" + data.password + "');";
+        "( '" + data.first_name + "','" + data.last_name + "','" + data.org_email + "','" + data.contact_number + "','" + randNum + "','" + data.password + "');";
     
     db.QueryDB(sql,function(queryResult,err){
         if (queryResult[0][0]["orgEmail"]){
