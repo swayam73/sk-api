@@ -43,4 +43,28 @@ function updateRecruiterCompany(data,callback){
     })
 } 
 
-module.exports = {createRecruiter,createCandidate,updateRecruiterCompany}
+
+
+function findUserWithVerifyCode(code,callback){
+    let sql ="CALL verifyRecruiter('"+code+"')";
+    console.log(sql,"sql verifyRecruiter")
+    db.QueryDB(sql,function(queryResult){
+        console.log(queryResult,"result for verify")
+        callback(true);
+        
+    })
+}
+
+
+function resendVerfication(userName,code,callback){
+    console.log(userName,"userName")
+    let sql ="CALL createNewVerificationCode('"+userName+"','"+code+"')";
+    console.log(sql,"sql resendVerfication")
+    db.QueryDB(sql,function(queryResult){
+        console.log(queryResult,"result for resendVerfication")
+        callback(true);
+        
+    })
+}
+
+module.exports = {resendVerfication,createRecruiter,createCandidate,updateRecruiterCompany,findUserWithVerifyCode}

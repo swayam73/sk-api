@@ -72,9 +72,14 @@ functions:
     handler: app.User
     events:
     - http:
+         path: /register/recruiterVerify
+         method: get
+    - http:
+         path: /register/resendVerificationCode
+         method: get
+    - http:
          path: /users/createRecruiter
          method: post
-         
     - http:
          path: /users/createRecruiter
          method: options

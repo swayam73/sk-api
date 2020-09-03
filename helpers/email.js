@@ -2,24 +2,23 @@
 const AWS = require('aws-sdk');
 const SES = new AWS.SES({ region: 'us-west-2' });
 
-
+//https://zaj3gxtv1m.execute-api.us-west-1.amazonaws.com/dev/register/recruiterVerify
 function sendVerificationEmail(result,randNum){
-    console.log(result,"reuslt",result["orgEmail"])
+    console.log(result,"reuslt")
     const htmlBody = `
     <!DOCTYPE html>
     <html>
       <head></head>
       <body><h1>Thank you for registering with Skipped!</h1>
-        <p> Your Verification Code: `+randNum+`</p>
+        <p> Click <a href="https://zaj3gxtv1m.execute-api.us-west-1.amazonaws.com/dev/register/recruiterVerify?code=`+randNum+`">here</a> to verify your account</p>
         
-        <p>Use this verification after you <a href="https://www.skipped.io">Sign in</a></p>
       </body>
     </html>
   `;
   const fromBase64 = Buffer.from('goskipped@gmail.com').toString('base64');
   const sesParams = {
     Destination: {
-      ToAddresses: [result["orgEmail"]],
+      ToAddresses: [result],
     },
     Message: {
       Body: {
