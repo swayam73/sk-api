@@ -50,7 +50,9 @@ function findUserWithVerifyCode(code,callback){
     console.log(sql,"sql verifyRecruiter")
     db.QueryDB(sql,function(queryResult){
         console.log(queryResult,"result for verify")
-        callback(true);
+        if(queryResult[0] && (queryResult[0]['orgEmail'] !== undefined || queryResult[0]['orgEmail'] !== null )){
+            callback(true);
+        }else{callback(false)}
         
     })
 }
@@ -61,10 +63,42 @@ function resendVerfication(userName,code,callback){
     let sql ="CALL createNewVerificationCode('"+userName+"','"+code+"')";
     console.log(sql,"sql resendVerfication")
     db.QueryDB(sql,function(queryResult){
-        console.log(queryResult,"result for resendVerfication")
-        callback(true);
+        if(queryResult[0] && queryResult[0][0] && (queryResult[0][0]['orgEmail'] !== undefined && queryResult[0][0]['orgEmail'] !== null )){
+            console.log(queryResult,"result for resendVerfication")
+        console.log(queryResult[0][0]['orgEmail'],queryResult[0][0],"1result for resendVerfication")
+        
+            callback(true);
+        }else{callback(false)}
         
     })
 }
 
-module.exports = {resendVerfication,createRecruiter,createCandidate,updateRecruiterCompany,findUserWithVerifyCode}
+function isUser(userName,randNum,callback){
+    let sql ="CALL isUser('"+userName+"','"+randNum+"')";
+    db.QueryDB(sql,function(queryResult){
+        if(queryResult[0] && queryResult[0][0] && (queryResult[0][0]['verifiedUser'] !== undefined && queryResult[0][0]['verifiedUser'] === 1 )){
+            console.log(queryResult,"result for resendVerfication")
+        console.log(queryResult[0][0]['orgEmail'],queryResult[0][0],"1result for resendVerfication")
+        
+            callback(true);
+        }else if(queryResult[0] && queryResult[0][0] && (queryResult[0][0]['verifiedUser'] !== undefined && queryResult[0][0]['verifiedUser'] === 0)){
+            callback('Not Valid user')
+        }else{callback(false)}
+        
+    })
+}
+
+function resetPass(userName,code,pass,callback){
+    let sql ="CALL resetPass('"+userName+"','"+code+"','"+pass+"')";
+    
+    db.QueryDB(sql,function(queryResult){
+        console.log(sql,"stuff")
+        if(queryResult[0] && queryResult[0][0] && (queryResult[0][0]['result'] !== undefined && queryResult[0][0]['result'] !== 'USER NOT FOUND' )){
+            console.log('we good') 
+            callback(true);
+        }else{callback(false)}
+        
+    })
+}
+
+module.exports = {resetPass,isUser,resendVerfication,createRecruiter,createCandidate,updateRecruiterCompany,findUserWithVerifyCode}

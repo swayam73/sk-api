@@ -78,6 +78,15 @@ functions:
          path: /register/resendVerificationCode
          method: get
     - http:
+         path: /register/resetPass
+         method: post
+    - http:
+         path: /register/resetPass
+         method: options
+    - http:
+         path: /register/forgotPass
+         method: get
+    - http:
          path: /users/createRecruiter
          method: post
     - http:
