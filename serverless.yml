@@ -24,6 +24,16 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: us-west-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+      Resource:
+        - "*"
+      Condition:
+        StringEquals:
+          ses:FromAddress:
+            - "goskipped@gmail.com"
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -61,6 +71,21 @@ functions:
   sk-User:
     handler: app.User
     events:
+    - http:
+         path: /register/recruiterVerify
+         method: get
+    - http:
+         path: /register/resendVerificationCode
+         method: get
+    - http:
+         path: /register/resetPass
+         method: post
+    - http:
+         path: /register/resetPass
+         method: options
+    - http:
+         path: /register/forgotPass
+         method: get
     - http:
          path: /users/createRecruiter
          method: post

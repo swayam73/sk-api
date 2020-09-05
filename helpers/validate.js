@@ -11,4 +11,7 @@ function createRecruiterValidate(){
 function updateRecruiterCompany(){
     return true;
 }
-module.exports = {createCandidateValidate,createRecruiterValidate,updateRecruiterCompany}
+function resetPassValidate(){
+    return true;
+}
+module.exports = {resetPassValidate,createCandidateValidate,createRecruiterValidate,updateRecruiterCompany}
