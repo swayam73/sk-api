@@ -4,6 +4,5 @@
     "dbname": "sk_dev",
     "dbuser": "skippeddbadmin",
     "dbpassword": "sk123QWE",
-    "debug": true,
-    "dialect": "mysql"
+    "debug": true
 }

@@ -1,122 +1,15 @@
 'use strict';
 
 const serverless = require('serverless-http');
-var createError = require('http-errors');
 const express = require('express');
 const app = express();
-const validate = require('./helpers/validate');
-const user = require('./middlewares/User');
-const role = require('./middlewares/Role.js');
-const parse = require('./helpers/Parse.js');
-const skill = require('./middlewares/Skill.js');
-const industry = require('./middlewares/Industry.js');
-const env = require("dotenv").config();
-const path = require("path");
-const db = require("./helpers/db_connect");
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var registerRouter = require('./routes/register');
-var loginRouter = require('./routes/login');
-
-
+const validate = require('./validate');
+const user = require('./User.js');
+const role = require('./Role.js');
+const parse = require('./Parse.js');
+const skill = require('./Skill.js');
+const industry = require('./Industry.js');
 var cors = require('cors');
-
-// if (!process.env.jwtPrivateKey) {
-//   console.error("FATAL ERROR: jwtPrivateKey is not defined");
-//   process.exit(1);
-// }
-
-const expressValidator = require('express-validator');
-console.debug(expressValidator)
-var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcrypt-nodejs');
-
-
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-//express validators 
-
-app.use(expressValidator());
-app.use(cookieParser());
-
-
-var sessionStore = new MySQLStore(db);
-
-app.use(session({
-  secret: 'jhjjdddjjdhbeubvbrufbvjfjswirfiuh',
-  resave: false,
-  saveUninitialized: true,
-  store:sessionStore
-  //cookie: { secure: true }
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(function(req,res,next){
-  res.locals.isAuthenticated  = req.isAuthenticated();
-  next();
-});
-// Routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/register',registerRouter);
-app.use('/login',loginRouter);
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-
-      db.query('select email,password from candidate WHERE email=?',[username],
-        function(err,results,fields){
-          if(err){
-            done(err);
-          };
-
-          if(results.length === 0){
-
-            done(null,false);
-
-          }else {
-            const hash = results[0].password.toString();
-
-             bcrypt.compare(password,hash,(err,res)=>{
-
-                if(res == true){
-                    return done(null,{user_id:results[0].id});
-                }else {
-                  return done(null,false);
-                }
-
-            });
-          }
-          
-      });   
-  }));
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: err
-  });
-});
 
 
 app.use((req, res, next) => {
@@ -214,10 +107,5 @@ app.post('/users/updateRecruiterCompany', function (req, res) {
   }
 })
 
-// Setting up the server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000...');
-});
 
-module.exports = app;
 module.exports.User = serverless(app);

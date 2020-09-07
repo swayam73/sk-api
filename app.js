@@ -4,12 +4,9 @@ const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 require('./controllers/registerFlowRoutes/registerUsers')(app);
-require('./controllers/registerFlowRoutes/registerCandidate')(app);
 require('./controllers/getFacts/industry')(app);
 require('./controllers/getFacts/role')(app);
 require('./controllers/getFacts/skills')(app);
-require('./routes/register')(app);
-require('./routes/login')(app);
 
 
 var cors = require('cors');
