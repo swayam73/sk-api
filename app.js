@@ -8,6 +8,8 @@ require('./controllers/registerFlowRoutes/registerCandidate')(app);
 require('./controllers/getFacts/industry')(app);
 require('./controllers/getFacts/role')(app);
 require('./controllers/getFacts/skills')(app);
+require('./routes/register')(app);
+require('./routes/login')(app);
 
 
 var cors = require('cors');

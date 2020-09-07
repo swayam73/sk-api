@@ -13,8 +13,8 @@
 
 service: sk-api
 # app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
+app: sk-rest-api-app
+org: swayam73
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -23,20 +23,20 @@ service: sk-api
 provider:
   name: aws
   runtime: nodejs12.x
-  region: us-west-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "ses:SendEmail"
-      Resource:
-        - "*"
-      Condition:
-        StringEquals:
-          ses:FromAddress:
-            - "goskipped@gmail.com"
-# you can overwrite defaults here
-#  stage: dev
 #  region: us-east-1
+#   iamRoleStatements:
+#     - Effect: "Allow"
+#       Action:
+#         - "ses:SendEmail"
+#       Resource:
+#         - "*"
+#       Condition:
+#         StringEquals:
+#           ses:FromAddress:
+#             - "swayam73@gmail.com"
+# you can overwrite defaults here
+# stage: dev
+# region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -113,6 +113,9 @@ functions:
     - http:
          path: /skill/getSkills
          method: get
+    - http:
+         path: /users/create
+         method: post
 #    The following are a few example events you can configure /users/updateRecruiterCompany
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

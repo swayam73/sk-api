@@ -1,7 +1,7 @@
 const parse = require('../../helpers/Parse.js');
 const validate = require('../../helpers/validate');
 const user = require('../../middlewares/User.js');
-const conn  = require ('../helpers/db_connect');
+const conn  = require ('../../helpers/db_connect');
 
 const express = require('express')  
 const router = express.Router()  
