@@ -96,19 +96,28 @@ module.exports = function(app){
 
 
     app.post('/users/createCandidate', function (req, res) {
-        // context.callbackWaitsForEmptyEventLoop = false;
-        if(validate.createCandidateValidate(req.query)){
-          user.createCandidate(req.query,function(result){
-            if(result === "PASS"){
-      
-              res.send('Created Candidate')
+      res.header('Access-Control-Allow-Origin', '*');
+      // context.callbackWaitsForEmptyEventLoop = false;
+      if(validate.createCandidateValidate(req.query)){
+        console.log("request info",req['headers'])
+
+        var randNum = Math.floor(Math.random()*90000) + 10000;
+        user.createCandidate(req['headers'],randNum,function(result){
+          email.sendVerificationEmail(result["email"],randNum).then(data=>{
+            console.log(data," send email data")
+            console.log(result,"handler result",result["email"],result[0])
+            if(result["email"] !== undefined){
+              console.log('in here')
+              return res.status(200).send(result["email"])
             }else{
               res.send('Create Candidate FAILED')
             }
           })
-        }else{
-          res.send('Create Candidate FAILED VALIDATION')
-        }
+        })
+      }else{
+        res.send('Create Candidate FAILED VALIDATION')
+      }
+   
       })
       
       app.post('/users/createRecruiter', function (req, res) {

@@ -23,17 +23,17 @@ service: sk-api
 provider:
   name: aws
   runtime: nodejs12.x
-  region: us-west-1
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "ses:SendEmail"
-      Resource:
-        - "*"
-      Condition:
-        StringEquals:
-          ses:FromAddress:
-            - "goskipped@gmail.com"
+#   region: us-west-1
+#   iamRoleStatements:
+#     - Effect: "Allow"
+#       Action:
+#         - "ses:SendEmail"
+#       Resource:
+#         - "*"
+#       Condition:
+#         StringEquals:
+#           ses:FromAddress:
+#             - "goskipped@gmail.com"
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -99,6 +99,9 @@ functions:
          path: /users/createCandidate
          method: post
     - http:
+         path: /users/createCandidate
+         method: options
+    - http:
          path: /users/getRecruiter
          method: get
     - http:
@@ -113,6 +116,16 @@ functions:
     - http:
          path: /skill/getSkills
          method: get
+    - http:
+          path: /users/candidate
+          method: get
+    - http:
+          path: /users/candidate/{id}
+          method: get
+    - http:
+          path: /users/candidate
+          method: post
+
 #    The following are a few example events you can configure /users/updateRecruiterCompany
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

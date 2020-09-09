@@ -1,17 +1,25 @@
 const db  = require ('../helpers/db_connect');
 
 
-function createCandidate(data,callback){
-    let sql = "INSERT INTO `sk_dev`.`candidate`(`first_name`,`last_name`,`email`,`mobile_phone`,`password`,`linkedin_url`)" +
-        "VALUES ( '" + data.first_name + "','" + data.last_name + "','" + data.email + "','" + data.mobile_phone + "','" + data.password + "','" + data.linkedin_url + "');";
-    db.QueryDB(sql,function(queryResult){
-        if (queryResult.affectedRows==1){
-            callback("PASS")
-        }else{
+// function createCandidate(data,randNum,callback){
+//     //let sql = "INSERT INTO `sk_dev`.`candidate`(`firstName`,`lastName`,`email`,`contactNumber`,`password`,`linkdinUrl`)" +
+//     //    "VALUES ( '" + data.first_name + "','" + data.last_name + "','" + data.email + "','" + data.mobile_phone + "','" + data.password + "','" + data.linkedin_url + "');";
+//     let sql = "CALL createCandidate" +
+//         "( '" + data.first_name + "','" + data.last_name + "','" + data.email+ "','" + data.mobile_phone + "','" + randNum + "','" + data.password + "');";
+//     console.log(sql);
+//     db.QueryDB(sql,function(queryResult,err){
+//         console.log(queryResult);
+//         if (queryResult[0][0]["email"]){
+//             callback(queryResult[0][0])
+//         }else if (queryResult[0][0]["Candidate EXISTS"]){
+//             callback("Candidate EXISTS")
+//         }else{
+//             console.log(sql,"sql",queryResult,err)
+//             callback("Query Failed")
+//         }
+//     })
+// }
 
-        }
-    })
-}
 function createRecruiter(data,randNum,callback){
     let sql = "CALL createRecruiter" +
         "( '" + data.first_name + "','" + data.last_name + "','" + data.org_email + "','" + data.contact_number + "','" + randNum + "','" + data.password + "');";
@@ -101,4 +109,4 @@ function resetPass(userName,code,pass,callback){
     })
 }
 
-module.exports = {resetPass,isUser,resendVerfication,createRecruiter,createCandidate,updateRecruiterCompany,findUserWithVerifyCode}
+module.exports = {resetPass,isUser,resendVerfication,createRecruiter,updateRecruiterCompany,findUserWithVerifyCode}

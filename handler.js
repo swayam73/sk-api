@@ -2,9 +2,10 @@
 
 const serverless = require('serverless-http');
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const validate = require('./validate');
-const user = require('./User.js');
+const user = require('./middlewares/User');
 const role = require('./Role.js');
 const parse = require('./Parse.js');
 const skill = require('./Skill.js');
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors());
+
 
 app.get('/users/getRecruiter', function (req, res) {
   res.send('Get Recruiter!')
@@ -49,14 +51,22 @@ app.get('/skill/getSkills', function (req, res) {
   })
 })
 
+app.options('/users/createCandidate', function (req, res,next) {
+
+  res.header('Access-Control-Allow-Methods', 'OPTIONS,POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+})
 
 app.post('/users/createCandidate', function (req, res) {
   // context.callbackWaitsForEmptyEventLoop = false;
   if(validate.createCandidateValidate(req.query)){
-    user.createCandidate(req.query,function(result){
-      if(result === "PASS"){
-
-        res.send('Created Candidate')
+    console.log(JSON.parse(req['body'].toString('utf8')),"request info",req)
+    user.createCandidate(JSON.parse(req['body'].toString('utf8')),function(result){
+      console.log(result,"handler result createCandidate")
+      if(result["email"]){
+        res.send(result)
       }else{
         res.send('Create Candidate FAILED')
       }
@@ -108,4 +118,11 @@ app.post('/users/updateRecruiterCompany', function (req, res) {
 })
 
 
+// Handle in-valid route
+app.all('*', function(req, res) {
+  const response = { data: null, message: 'Route not found!!' }
+  res.status(400).send(response)
+})
+
+// wrap express app instance with serverless http function
 module.exports.User = serverless(app);

@@ -25,4 +25,5 @@ function QueryDB(sql,callback){
         })
     })
 }
-module.exports = {QueryDB};
+
+module.exports = {QueryDB,pool};
